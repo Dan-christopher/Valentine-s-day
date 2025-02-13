@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Will You Be My Valentine?</title>
+    <style>
+        body {
+            background-color: #ffd1dc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        h1 {
+            color: #ff1493;
+            font-size: 2.5em;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            position: relative;
+        }
+
+        button {
+            padding: 15px 30px;
+            margin: 0 10px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.5s ease-in-out;
+        }
+
+        #yesBtn {
+            background-color: #ff69b4;
+            color: white;
+        }
+
+        #noBtn {
+            background-color: #808080;
+            color: white;
+            transition: all 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .floating-emoji {
+            position: fixed;
+            pointer-events: none;
+            font-size: 24px;
+            animation: float 3s linear forwards;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .kiss {
+            color: #ff1493;
+            animation: kiss-float 3s linear forwards;
+        }
+
+        @keyframes kiss-float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-50vh) translateX(20px) rotate(45deg);
+            }
+            100% {
+                transform: translateY(-100vh) translateX(-20px) rotate(90deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💖 Will You Be My Valentine? 💖</h1>
+        <div class="buttons">
+            <button id="yesBtn" onclick="respondYes()">YES!</button>
+            <button id="noBtn" onmouseover="moveNo()" onclick="moveNo()">NO</button>
+        </div>
+        <div id="response" class="hidden">
+            <h2>Awww🤭.....sachme itna pyar krte ho😘</h2>
+            <p>I love you so much baby girl😘💕🫶</p>
+        </div>
+    </div>
+
+    <script>
+        function moveNo() {
+            const noBtn = document.getElementById('noBtn');
+            const containerRect = document.querySelector('.container').getBoundingClientRect();
+            
+            // Calculate maximum movement boundaries
+            const maxX = containerRect.width - noBtn.offsetWidth;
+            const maxY = containerRect.height - noBtn.offsetHeight;
+            
+            // Generate new position with smooth transition
+            const newX = Math.random() * maxX;
+            const newY = Math.random() * maxY;
+            
+            noBtn.style.transform = `translate(${newX}px, ${newY}px)`;
+        }
+
+        function respondYes() {
+            document.getElementById('response').classList.remove('hidden');
+            document.getElementById('yesBtn').style.display = 'none';
+            document.getElementById('noBtn').style.display = 'none';
+            
+            // Add floating hearts and kisses
+            for(let i = 0; i < 50; i++) {
+                createFloatingEmoji(i % 2 === 0 ? '💖' : '💋');
+            }
+        }
+
+        function createFloatingEmoji(emoji) {
+            const element = document.createElement('div');
+            element.classList.add('floating-emoji');
+            if(emoji === '💋') element.classList.add('kiss');
+            
+            element.innerHTML = emoji;
+            element.style.left = Math.random() * 100 + 'vw';
+            element.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(element);
+            
+            setTimeout(() => {
+                element.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
